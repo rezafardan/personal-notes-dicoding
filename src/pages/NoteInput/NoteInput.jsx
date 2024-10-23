@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { showFormattedDate } from "../../../utils/index";
+import { showFormattedDate } from "../../utils/index";
 
 const NoteInput = ({ onAddNote }) => {
   const [title, setTitle] = useState("");
@@ -15,26 +15,29 @@ const NoteInput = ({ onAddNote }) => {
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
-
-    onAddNote(initialData);
-    setTitle(title);
-    setBody(body);
+    if (title.length <= 50 && title !== "" && body !== "") {
+      onAddNote(initialData);
+      setTitle(title);
+      setBody(body);
+    }
   };
 
   const handleCount = () => {
     const maxString = 50;
-    const totalCount = maxString - title.length;
-    if (totalCount <= 0) {
-      alert("To many character");
-    }
-    return totalCount;
+    const remaining = maxString - title.length;
+    return remaining < 0 ? 0 : remaining;
   };
+
+  const isSubmitDisabled = title.length > 50 || title === "" || body === "";
 
   return (
     <div className="note-input">
       <h2>Buat catatan</h2>
       <form onSubmit={handleSubmitForm}>
         <p className="note-input__title__char-limit">
+          {title.length > 50 && (
+            <span style={{ color: "red" }}>Terlalu banyak karakter - </span>
+          )}
           Sisa Karakter : {handleCount()}
         </p>
         <input
@@ -53,7 +56,9 @@ const NoteInput = ({ onAddNote }) => {
           value={body}
           required
         ></textarea>
-        <button type="submit">Buat</button>
+        <button type="submit" disabled={isSubmitDisabled}>
+          Buat
+        </button>
       </form>
     </div>
   );

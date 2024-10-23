@@ -1,6 +1,6 @@
 import React from "react";
 
-const NoteList = ({ title, data, onDelete, onArchive, isArchive }) => {
+const NoteList = ({ title, data, onDelete, onArchive, onBack, isArchive }) => {
   return (
     <>
       <h2>{title}</h2>
@@ -21,12 +21,19 @@ const NoteList = ({ title, data, onDelete, onArchive, isArchive }) => {
                   >
                     Delete
                   </button>
-                  {!isArchive && (
+                  {!isArchive ? (
                     <button
                       className="note-item__archive-button"
                       onClick={() => onArchive(data.id)}
                     >
                       Arsipkan
+                    </button>
+                  ) : (
+                    <button
+                      className="note-item__archive-button"
+                      onClick={() => onBack(data.id)}
+                    >
+                      Pindahkan
                     </button>
                   )}
                 </div>

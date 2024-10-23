@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Header = () => {
-  const [search, setSearch] = useState();
+const Header = ({ onSearch }) => {
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value.toLowerCase();
+    onSearch(searchTerm);
+  };
 
   return (
     <div className="note-app__header">
@@ -10,7 +13,7 @@ const Header = () => {
         <input
           type="text"
           placeholder="Cari catatan ..."
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleInputChange}
         />
       </div>
     </div>
